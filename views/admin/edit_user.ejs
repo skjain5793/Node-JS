@@ -1,0 +1,79 @@
+<% if (Object.values(accesses).indexOf('access_backend') > -1)  { %>
+
+<%- include layouts/header.ejs %>
+
+        <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Edit User</li>
+          </ol>
+		  
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="table-responsive" style="margin: 0 auto;width: 60%;">
+            
+            <form method="post" action="/superman/users/edit/<%=data[0].id%>">
+                <table class="table table-striped" width="100%" cellspacing="0">
+                <tr>
+                    <td class="">Name</td><td> <input type="text" name="name" value="<%=data[0].name%>" class="form-control"></td>
+                 </tr>
+                <tr>
+                    <td class="">Email</td><td> <input type="text" value="<%=data[0].email%>" name="email" class="form-control" required></td>
+                 </tr>
+                 <tr>
+                    <td class="">Phone</td><td> <input type="text" name="phone" value="<%=data[0].phone%>" class="form-control" required></td>
+                 </tr>
+				 <tr>
+                    <td class="">Active</td><td> 
+						<select name="user_active" class="form-control">
+								<option value="1" <% if(data[0].active==1) {%> selected<% } %>>Yes</option>
+								<option value="0" <% if(data[0].active!=1) {%> selected<% } %>>No</option>
+						 </select>
+					</td>
+                 </tr>
+				 <tr>
+                    <td class="">User Status</td><td> 
+						<select name="user_status" class="form-control">
+								<option value="0" <% if(data[0].verified==0) {%> selected<% } %>>Not Verfied</option>
+								<option value="1" <% if(data[0].verified==1) {%> selected<% } %>>Verfied</option>
+						 </select>
+					</td>
+                 </tr>
+				 <tr>
+                    <td class="">User Role</td><td> 
+						<select name="user_type" class="form-control">
+						<% if(groups.length){ 
+                                
+							for(var i = 0;i < groups.length;i++) { %>
+								<option value="<%=groups[i].id%>" <% if(data[0].group_id==groups[i].id) {%> selected<% } %>><%=groups[i].name%></option>
+							
+						 <% } }%>
+						 </select>
+					</td>
+                 </tr>
+                 <tr>
+                    <td class=""></td>
+                    <td>
+                        &nbsp; <input type="submit" name="submit" value="Save" class="btn btn-primary" style="padding-left: 10%;padding-right: 10%;">
+                       <!--<input type="button" name="cancel" value="Cancel" class="cancel" onClick="cancelAdd()">-->
+                    </td>
+                 </tr>
+                </table>
+            </form>
+		
+ </div>
+        </div>
+		
+		</div>
+
+		            
+<%- include layouts/footer.ejs %>
+
+<% } %>	

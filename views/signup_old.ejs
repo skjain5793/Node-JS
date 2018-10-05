@@ -1,0 +1,25 @@
+<%- include layouts/header.ejs %>
+
+        <div class="page-data">
+		
+			<% if (message.length > 0) { %>
+				<div class="alert alert-danger"><%= message %></div>
+			<% } %>
+            
+            <form method="post" action="/customers/signup">
+                <table cellpadding="11">
+                <tr>
+                    <td class="label">Username</td><td>: <input type="text" name="username" required></td>
+                 </tr>
+                <tr>
+                    <td class="label">Password</td><td>: <input type="password" name="password" required></td>
+                 </tr>
+                  <tr>
+                    <td class="label" colsapn="2"><input type="submit" name="save" value="Save"></td>
+                 </tr>
+                </table>
+            </form>
+            
+        </div>
+        
+<%- include layouts/footer.ejs %>

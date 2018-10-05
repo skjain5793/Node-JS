@@ -1,0 +1,76 @@
+<% if (Object.values(accesses).indexOf('access_backend') > -1)  { %>
+
+<%- include layouts/header.ejs %>
+<div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Add User</li>
+          </ol>
+		  
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="table-responsive" style="margin: 0 auto;width: 60%;">
+            
+            <form method="post" action="/superman/users/add">
+			
+				<% if (messages.error) { %>
+					<div id="signupalert" class="alert alert-danger">
+						<span><%- messages.error %></span>
+					</div>
+				<% } %>				 
+				<% if (messages.success) { %>
+					<div id="signupalert" class="alert alert-success">
+						<span><%- messages.success %></span>
+					</div>
+				<% } %>
+			
+                <table class="table table-striped" cellpadding="11">
+                <tr>
+                    <td class="">Name</td><td> <input type="text" name="name" class="form-control" value="<%= name %>"></td>
+                 </tr>
+                <tr>
+                    <td class="">Email</td><td> <input type="text" name="email" class="form-control" value="<%= email %>" ></td>
+                 </tr>
+                  <tr>
+                    <td class="">Phone</td><td> <input type="text" name="phone" class="form-control" value="<%= phone %>"></td>
+                 </tr>
+				 <tr>
+                    <td class="">User Role</td><td> 
+						<select name="user_type" class="form-control">
+						<% if(groups.length>0){ 
+                                
+							for(var i = 0;i < groups.length;i++) { %>
+								<option value="<%=groups[i].id%>"><%=groups[i].name%></option>
+							
+						 <% } }%>
+						 </select>
+					</td>
+                 </tr>
+                <tr>
+                    <td class="">Password</td><td> <input type="password" name="user_password" class="form-control" value="<%= user_password %>" ></td>
+                 </tr>
+                 <tr>
+                    <td class=""></td>
+                    <td>
+                        &nbsp; <input type="submit" name="submit" value="Submit" class="btn btn-primary" style="padding-left: 10%;padding-right: 10%;">
+                       <!--<input type="button" name="cancel" value="Cancel" class="cancel" onClick="cancelAdd()">-->
+                    </td>
+                 </tr>
+                </table>
+            </form>
+            
+         </div>
+        </div>
+		
+		</div>
+        
+<%- include layouts/footer.ejs %>
+
+<% } %>

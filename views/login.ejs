@@ -1,0 +1,23 @@
+<%- include layouts/header.ejs %>
+
+<h2><%=page_title%></h2>
+
+        <div class="page-data">
+            
+            <form method="post" action="/login">
+                <table cellpadding="11">
+                <tr>
+                    <td class="label">Username</td><td>: <input type="text" name="username" required></td>
+                 </tr>
+                <tr>
+                    <td class="label">Password</td><td>: <input type="password" name="user_password" required></td>
+                 </tr>
+                  <tr>
+                    <td class="label" colsapn="2"><input type="submit" name="login" value="Login"></td>
+                 </tr>
+                </table>
+            </form>
+            
+        </div>
+        
+<%- include layouts/footer.ejs %>

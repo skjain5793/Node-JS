@@ -1,0 +1,142 @@
+<% if (Object.values(accesses).indexOf('access_backend') > -1)  { %>
+
+<%- include layouts/header.ejs %>
+
+<% if (Object.values(accesses).indexOf('view_user_files') > -1)  { %>
+
+        <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">User Files</li>
+          </ol>
+		  
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              Users Files</div>
+            <div class="card-body">
+              <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+			<thead>
+                <tr>
+                    <th width="50px">No</th>
+                    <th>Document Type</th>
+                    <th>Identification number</th>
+					<th>Status</th>
+                    <th>Document</th>
+                    <th width="120px">Action</th>
+                </tr>
+				</thead>
+                 <tbody>              
+                <% if(data.length>0){ 
+                                
+                 for(var i = 0;i < data.length;i++) { %>
+ 
+                <tr>
+                    <td><%=(i+1)%></td>
+                    <td><%=data[i].document_type %></td>
+                    <td><%=data[i].document_id_number %></td>
+					<td><% if(data[i].approved==0){ %><span class="label label-info">Pending</span><% } else if(data[i].approved==1) { %><span class="label label-success">Approved</span><% } else { %><span class="label label-danger">Rejected</span><% } %></td>
+                    <td><a href="/download/<%=data[i].document_name %>">Download</a></td>
+                    <td>
+					
+					<% if (Object.values(accesses).indexOf('change_status_of_user_files') > -1)  { %>
+					
+                        <a href="" data-toggle="modal" data-target="#documentStatusModal" class="documentStatusModal" data-id="<% if (typeof user_id !== 'undefined') { %><%= user_id %><% } %>/<%= data[i].id %>" id="<%= data[i].approved %>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;&nbsp;&nbsp;
+					
+					<% } %>
+                       
+                        <!--<a class="a-inside delete" href="/superman/users/delete/<%=data[i].id%>"><i class="fa fa-trash" aria-hidden="true"></i></a> &nbsp;&nbsp;&nbsp;-->
+						
+						<!--<form method="post" action="/superman/users/files/<% if (typeof user_id !== 'undefined') { %><%= user_id %><% } %>/<%= data[i].id %>">
+						
+							<select name="document_status" class="form-control" style="display:inline-block; height:28px; width:auto; padding:0; margin-bottom:5%">
+								<option value="0" <% if(data[i].approved==0){ %>selected<% } %>>Approve/Reject</option>
+								<option value="1" <% if(data[i].approved==1){ %>selected<% } %>>Approved</option>
+								<option value="-1" <% if(data[i].approved==-1){ %>selected<% } %>>Rejected</option>
+							</select> <br>
+						
+						<input type="submit" value="submit" class="edit_document_status_btn btn btn-primary btn-sm">
+					</form>-->
+						
+                    </td>
+                </tr>
+				
+            <% }
+            
+             }else{ %>
+                 <tr>
+                    <td colspan="3">No Files</td>
+                 </tr>
+            <% } %>
+
+             </tbody>
+            </table>
+         </div>
+        </div>
+		
+		</div>
+		
+	<div class="modal fade" id="documentStatusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width: 62%;margin:0 auto;">
+          <div class="modal-header" style="background-color: #00000042;color: white;">
+            <h5 class="modal-title" id="exampleModalLabel">Update document status</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+			<form method="post" id="document_status_form" action="">
+						
+					<select name="document_status" id="document_type" class="form-control" >
+						
+					</select> <br>
+				
+					<center><input type="submit" value="submit" class="edit_document_status_btn btn btn-primary btn-sm" style="padding-left: 20%;
+					padding-right: 20%;"></center>
+			</form>
+		</div>
+          <!--<div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          </div>-->
+        </div>
+      </div>
+    </div>
+	
+	<script>
+	$(document).on("click", ".documentStatusModal", function () {
+     var action = $(this).data('id');
+	 var optionvalue = $(this).attr('id');
+	 
+	 var approvedrejected = '', approved='', rejected='';
+	 if(optionvalue==0){ 
+		 approvedrejected = 'selected' 
+	}else if(optionvalue==1){ 
+		 approved='selected';
+	} else if(optionvalue==-1){
+		rejected = 'selected';
+	}
+	
+	$("form#document_status_form").attr('action','/superman/users/files/'+action);
+	 
+	 $("select#document_type").html('<option value="0" '+ approvedrejected +'>Approve/Reject</option>'+
+	 '<option value="1" '+ approved +'>Approve</option>'+
+	 '<option value="-1" '+ rejected +'>Reject</option>'
+);
+});
+	</script>
+	
+	<% } else { %><% } %>
+
+        
+<%- include layouts/footer.ejs %>
+
+<% } %>

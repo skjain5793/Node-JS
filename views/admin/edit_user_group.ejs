@@ -1,0 +1,70 @@
+<% if (Object.values(accesses).indexOf('access_backend') > -1)  { %>
+
+<%- include layouts/header.ejs %>
+<div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Add User</li>
+          </ol>
+		  
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="table-responsive" style="margin: 0 auto;width: 60%;">
+            
+            <form method="post" action="/superman/users/groups/edit/<%=group[0].id%>">
+			
+				<% if (messages.error) { %>
+					<div id="signupalert" class="alert alert-danger">
+						<span><%- messages.error %></span>
+					</div>
+				<% } %>				 
+				<% if (messages.success) { %>
+					<div id="signupalert" class="alert alert-success">
+						<span><%- messages.success %></span>
+					</div>
+				<% } %>
+			
+                <table class="table table-striped" cellpadding="11">
+                <tr>
+                    <td class="">Group Name</td><td> <input type="text" name="group_name" class="form-control" value="<%= group[0].name %>"></td>
+                 </tr>
+                </table>
+					<div class="card mb-3">
+						<div class="card-header">
+						  <i class="fas fa-table"></i>
+						  User Role Permissions</div>
+						<div class="card-body">
+						  <div class="table-responsive">
+							<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+								<tr><td>
+								<% if(group[0].permissions!='') {group_permissions = JSON.parse(group[0].permissions) } %>
+								<% permissions_details.forEach(function(permission,k) { 				
+								%>
+						
+										
+										<input type="checkbox" name="permission[<%= permissions_names[k] %>]" value="1"<% if(group[0].permissions!='') { if (permissions_names[k] in group_permissions) { %> checked <% } } %>> &nbsp;&nbsp;&nbsp;&nbsp;<%= permission %> <br/> 
+								<% }); %>
+								</td></tr>
+							</table>
+							<input type="submit" name="submit" value="Submit" class="btn btn-primary" style="padding-left: 10%;padding-right: 10%;">
+						</div>
+						</div>
+         
+          </div> 
+            </form>
+            
+         </div>
+        </div>
+		
+		</div>
+        
+<%- include layouts/footer.ejs %>
+
+<% } %>
